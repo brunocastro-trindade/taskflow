@@ -1,5 +1,14 @@
 tarefas = []
 
+def listar_tarefas(tarefas):
+    print("=== Tarefas ===")
+     
+    numero = 1
+     
+    for tarefa in tarefas:
+        status = "Concluida" if tarefa["concluida"] else "Pendente"
+        print(f"{numero} - {tarefa['nome']} ({status})")
+        numero += 1
 
 while True:
         menu = f"""
@@ -29,26 +38,38 @@ while True:
 
             print(f"Tarefa '{nome_tarefa}' adicionada com sucesso!")
         
-
         elif opcao == 2:
-            print("=== Tarefas ===")
-
-            numero = 1
-
-            for tarefa in tarefas:
-                status = "Concluida" if tarefa["concluida"] else "Pendente"
-                print(f"{numero} - {tarefa['nome']} ({status})")
-                numero += 1
-
+             listar_tarefas(tarefas)
         elif opcao == 3:
             if not tarefas:
                   print("Não existem tarefas cadastradas.")
             else:
-                numero_tarefa = int(input("Digite o número da tarefa: "))
+                try:
+                    numero_tarefa = int(input("Digite o número da tarefa: "))
+                except ValueError:
+                    print("Digite um numero inteiro.")
+                    continue
+                if numero_tarefa < 1 or numero_tarefa > len(tarefas):
+                     print("Essa tarefa não existe.")
+                     continue
                 indice = numero_tarefa - 1
                 tarefas[indice]["concluida"] = True
                 print("Tarefa concluida com sucesso!")     
-
+        elif opcao == 4:
+            if not tarefas:
+                  print("Não existem tarefas cadastradas.")
+            else:
+                try:
+                      numero_tarefa = int(input("Digite o número da tarefa: "))
+                except ValueError:
+                    print("Digite um numero inteiro.")
+                    continue
+                if numero_tarefa < 1 or numero_tarefa > len(tarefas):
+                    print("Essa tarefa não existe.")
+                    continue
+                indice = numero_tarefa - 1
+                tarefa_removida = tarefas.pop(indice)
+                print(f"Tarefa '{tarefa_removida['nome']}' removida com sucesso!")
         elif opcao == 5:
             print("Encerrando o TaskFlow...")
             break
